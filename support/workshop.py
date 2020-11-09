@@ -370,24 +370,21 @@ def createForms(context, priorRegistrantsFile):
 
 
 def sendEmail(context, mailer):
-    try:
-        url = context.absolute_url()
-        data = json.loads(context['data'].getRawText())
-        msg = MIMEMultipart('alternative')
-        msg.set_charset('utf8')
-        msg['Subject'] = _emailSubject
-        msg['From'] = u'"Data Science Program Committee" <{}>'.format(_overseer)
-        msg['Cc'] = u','.join(_overseerAssistants)
-        plain = _textEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
-        html = _htmlEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
-        msg.attach(MIMEText(plain.encode('utf-8'), 'plain', 'UTF-8'))
-        msg.attach(MIMEText(html.encode('utf-8'), 'html', 'UTF-8'))
-        _logger.warn(u'📧 Sending email to %s', data[u'email'])
-        mailer.sendmail(_overseer, data[u'email'], msg.as_string())
-        data[u'notifications'].append(unicode(date.today().isoformat()))
-        context['data'].setText(json.dumps(data))
-    except:
-        import pdb;pdb.set_trace()
+    url = unicode(context.absolute_url()).replace(u'http://nohost/873/', u'https://datascience.jpl.nasa.gov/')
+    data = json.loads(context['data'].getRawText())
+    msg = MIMEMultipart('alternative')
+    msg.set_charset('utf8')
+    msg['Subject'] = _emailSubject
+    msg['From'] = u'"Data Science Program Committee" <{}>'.format(_overseer)
+    msg['Cc'] = u','.join(_overseerAssistants)
+    plain = _textEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
+    html = _htmlEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
+    msg.attach(MIMEText(plain.encode('utf-8'), 'plain', 'UTF-8'))
+    msg.attach(MIMEText(html.encode('utf-8'), 'html', 'UTF-8'))
+    _logger.warn(u'📧 Sending email to %s', data[u'email'])
+    mailer.sendmail(_overseer, data[u'email'], msg.as_string())
+    data[u'notifications'].append(unicode(date.today().isoformat()))
+    context['data'].setText(json.dumps(data))
 
 
 def sendEmails(context, campaignNumber):
