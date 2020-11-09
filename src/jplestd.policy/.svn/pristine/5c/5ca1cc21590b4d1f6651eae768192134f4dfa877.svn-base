@@ -1,0 +1,6 @@
+[buildout]
+extends = https://github.com/nutjob4life/plone5-dev-buildout/raw/master/buildout.cfg
+index = https://pip:pip@pypi.jpl.nasa.gov/simple/
+
+[versions]
+python-ldap = 2.4.25

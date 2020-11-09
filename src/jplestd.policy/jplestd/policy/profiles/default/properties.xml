@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<site>
+	<property name='title'>Data System and Technology Office 873</property>
+	<property name='description'>Home and intranet for section 873, the Data System and Technology Office.</property>
+    <property name='email_from_name'>Section 873 Site Admin</property>
+    <property name='email_from_address'>emily.law@jpl.nasa.gov</property>
+</site>

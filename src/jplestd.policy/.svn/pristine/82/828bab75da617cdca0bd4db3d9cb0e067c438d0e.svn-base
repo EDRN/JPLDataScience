@@ -1,0 +1,33 @@
+[buildout]
+extends = http://dist.plone.org/release/4-latest/versions.cfg
+parts =
+    plone
+    omelette
+    test
+versions = versions
+develop = .
+
+[plone]
+recipe = plone.recipe.zope2instance
+eggs =
+    Pillow
+    Plone
+    jplestd.policy
+user = admin:admin
+verbose-security = on
+debug-mode = on
+
+[omelette]
+recipe = collective.recipe.omelette
+eggs =
+    Plone
+    jplestd.policy[test]
+
+[test]
+recipe = collective.xmltestreport
+eggs = jplestd.policy[test]
+
+[versions]
+python-ldap = 2.3.13
+setuptools = 2.2
+zc.buildout = 2.2.1

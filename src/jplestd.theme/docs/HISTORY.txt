@@ -1,0 +1,17 @@
+Changelog
+=========
+
+1.0.0 — Unreleased
+------------------
+
+Another unreleased release.  But this release does:
+
+* Make it compatible with Plone 4.
+* Uses the JPL theme as a base theme.
+
+
+0.0.0 — Unreleased
+------------------
+
+* Initial release (which was unreleased)
+

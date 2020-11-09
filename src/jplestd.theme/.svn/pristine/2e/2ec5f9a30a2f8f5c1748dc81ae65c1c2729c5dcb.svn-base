@@ -1,0 +1,2 @@
+recursive-include jplestd *
+global-exclude *pyc *pyo

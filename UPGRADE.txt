@@ -1,0 +1,35 @@
+Upgrading
+
+mkdir /usr/local/cdst-site
+cd /usr/local/cdst-site
+mkdir buildout buildout/eggs buildout/downloads buildout/extends
+/usr/local/python-2.7.6/bin/virtualenv-2.7 python2.7
+cd python2.7
+bin/pip install -U setuptools==2.2
+cd ..
+tar xjf ~kelly/cdst-site-1.0.1.tar.bz2
+mv cdst-site-1.0.1 1.0.1
+cd 1.0.1
+sed -i -e 's/supersecret/sup3rv1s0r-p4ssw0rd/' -e 's/zopesecret/z0p3-5shhh/' operations.cfg
+../python2.7/bin/python2.7 bootstrap.py -v 2.2.1 -c operations.cfg 
+bin/buildout -c operations.cfg # takes 20 minutes
+rsync -r /usr/local/dst-site/var/blobstorage var
+cp /usr/local/dst-site/var/filestorage/Data.fs var/filestorage
+service dst-site stop
+chkconfig --del dst-site
+rm /etc/init.d/dst-site
+install -o root -g root -m 755 bin/cdst-site /etc/init.d
+chkconfig --add cdst-site
+rm /etc/logrotate.d/dst-site
+install -o root -g root -m 644 var/etc/logrotate.conf /etc/logrotate.d/cdst-site
+rm /etc/cron.daily/dst-site
+install -o root -g root -m 755 bin/zope-backup /etc/cron.daily/cdst-site
+rm /etc/cron.monthly/dst-site
+install -o root -g root -m 755 bin/zeopack /etc/cron.monthly/cdst-site
+chown -R dstdeploy parts var
+service cdst-site start
+sleep 20
+bin/zope-debug adduser zopeadmin z0p3-5shhh
+cd ..
+ln -s 1.0.1 current
+echo 'all done dude' | mail -s 'cdst complete' sean.kelly@jpl.nasa.gov

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'>
+    <genericsetup:upgradeStep
+        source='1'
+        destination='2'
+        title='Null Upgrade (1→2)'
+        description='Nothing special needs to be done to upgrade from profile 1 to 2'
+        profile='jplestd.policy:default'
+        handler='jplestd.policy.upgrades.nullUpgradeStep'
+        sortkey='1'
+    />
+</configure>
+

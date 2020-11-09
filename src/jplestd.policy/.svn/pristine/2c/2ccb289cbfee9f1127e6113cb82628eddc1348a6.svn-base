@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<metadata>
+	<version>2</version>
+	<description>Turns a regular Plone site into the CDST web site</description>
+    <dependencies>
+        <dependency>profile-jplestd.theme:default</dependency>
+        <dependency>profile-Products.Carousel:default</dependency>
+    </dependencies>
+</metadata>

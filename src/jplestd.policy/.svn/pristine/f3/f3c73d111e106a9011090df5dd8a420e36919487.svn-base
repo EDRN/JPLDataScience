@@ -1,0 +1,20 @@
+[buildout]
+extends = http://dist.aclark.net/build/plone/4.1.x/develop.cfg
+allow-hosts = *
+parts =
+    omelette
+    test
+versions = versions
+sources = sources
+develop = .
+allow-hosts += oodt.jpl.nasa.gov
+
+[plone]
+eggs += jplestd.policy
+
+[test]
+recipe = collective.xmltestreport
+eggs = jplestd.policy [test]
+
+[versions]
+python-ldap = 2.3.13

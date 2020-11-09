@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object name='portal_skins' allow_any='False' cookie_persistence='False' default_skin='JPL Section 873 Theme'>
+    <skin-path name='JPL Section 873 Theme' based-on='JPL NG Theme'/>
+</object>
