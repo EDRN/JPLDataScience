@@ -25,9 +25,9 @@ app = globals().get('app', None)  # ``app`` comes from ``instance run`` magic.
 _logger = logging.getLogger('Plone')
 
 # 😮 TODO: change these for production
-_overseer = u'sean.kelly@jpl.nasa.gov'
-# _overseer = 'data-science-wg@jpl.nasa.gov'
-_overseerAssistants = (u'sean.kelly@jpl.nasa.gov', u'sean.c.kelly+overseer@gmail.com')
+# _overseer = u'sean.kelly@jpl.nasa.gov'
+_overseer = u'data-science-wg@jpl.nasa.gov'
+_overseerAssistants = (u'sean.kelly@jpl.nasa.gov',)
 
 # 🚨 Change these if the form changes
 RESPONSE_COLUMN = 1
@@ -89,7 +89,10 @@ _htmlEmail = u'''
         <p style='text-align: center;'>
             <code><a href='{confirmationURL}'>{confirmationURL}</a></code>
         </p>
-        <p><em><strong>IMPORTANT</strong>: you'll need to enter this confirmation code: <strong>{code}</strong></em></p>
+        <p>
+            <em><strong>IMPORTANT</strong>: you'll need to enter this confirmation code:
+            <strong style='font-size: 140%;'>{code}</strong></em>
+        </p>
         <p>
             Please re-confirm (or cancel) your registration by January 8, 2021.
         </p>
