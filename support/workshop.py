@@ -373,20 +373,23 @@ def createForms(context, priorRegistrantsFile):
 
 
 def sendEmail(context, mailer):
-    url = unicode(context.absolute_url()).replace(u'http://nohost/873/', u'https://datascience.jpl.nasa.gov/')
     data = json.loads(context['data'].getRawText())
-    msg = MIMEMultipart('alternative')
-    msg.set_charset('utf8')
-    msg['Subject'] = _emailSubject
-    msg['From'] = u'"Data Science Program Committee" <{}>'.format(_overseer)
-    msg['Cc'] = u','.join(_overseerAssistants)
-    plain = _textEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
-    html = _htmlEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
-    msg.attach(MIMEText(plain.encode('utf-8'), 'plain', 'UTF-8'))
-    msg.attach(MIMEText(html.encode('utf-8'), 'html', 'UTF-8'))
-    _logger.warn(u'📧 Sending email to %s', data[u'email'])
-    mailer.sendmail(_overseer, data[u'email'], msg.as_string())
-    data[u'notifications'].append(unicode(date.today().isoformat()))
+    try:
+        url = unicode(context.absolute_url()).replace(u'http://nohost/873/', u'https://datascience.jpl.nasa.gov/')
+        msg = MIMEMultipart('alternative')
+        msg.set_charset('utf8')
+        msg['Subject'] = _emailSubject
+        msg['From'] = u'"Data Science Program Committee" <{}>'.format(_overseer)
+        msg['Cc'] = u','.join(_overseerAssistants)
+        plain = _textEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
+        html = _htmlEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
+        msg.attach(MIMEText(plain.encode('utf-8'), 'plain', 'UTF-8'))
+        msg.attach(MIMEText(html.encode('utf-8'), 'html', 'UTF-8'))
+        _logger.warn(u'📧 Sending email to %s', data[u'email'])
+        mailer.sendmail(_overseer, data[u'email'], msg.as_string())
+        data[u'notifications'].append(unicode(date.today().isoformat()))
+    except smtplib.SMTPException:
+        data[u'notifications'].append(u'{}-FAILED'.format(unicode(date.today().isoformat())))
     context['data'].setText(json.dumps(data))
 
 
@@ -439,11 +442,11 @@ def report(context):
         None:  u'none'
     }
     writer = UnicodeWriter(sys.stdout)
-    writer.writerow((u'Email', u'Response', u'Notifications'))
+    writer.writerow((u'Email', u'Code', u'Response', u'Notifications'))
     for formBrain in forms:
         form = formBrain.getObject()
         data = json.loads(form['data'].getRawText())
-        writer.writerow((data[u'email'], ballot[data[u'answer']], u', '.join(data[u'notifications'])))
+        writer.writerow((data[u'email'], data[u'code'], ballot[data[u'answer']], u';'.join(data[u'notifications'])))
     sys.stdout.flush()
 
 
