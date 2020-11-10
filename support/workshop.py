@@ -34,7 +34,7 @@ RESPONSE_COLUMN = 1
 FIRST_NAME_COLUMN = 2
 
 # Pause between messages in seconds
-_interEmailWait = 5
+_interEmailWait = 2
 
 _emailSubject = u'''2nd AI and Data Science Workshop is back on as a virtual event, February 9–11, 2021'''
 
@@ -43,14 +43,15 @@ _textEmail = u'''Hello {firstName}
 The 2nd AI and Data Science Workshop has been rescheduled as an online,
 virtual event on February 9–11, 2021.
 
-Although you registered for the event originally scheduled in March 2020, we
-request that you re-confirm (or cancel) your registration at:
+Although you registered for the event originally scheduled in March 2020,
+we request that you re-confirm your registration at:
 
     {confirmationURL}
 
 IMPORTANT: you'll need to enter this confirmation code: {code}
 
-Please re-confirm (or cancel) your registration by January 8, 2021.
+Please re-confirm your registration by January 8, 2021. You may also cancel
+your registration at the above link if you are unable to attend.
 
 The workshop will include keynote speakers, invited talks, and poster
 sessions—all online through video conferencing.
@@ -83,8 +84,8 @@ _htmlEmail = u'''
             virtual event on February 9–11, 2021.
         </p>
         <p>
-            Although you registered for the event originally scheduled in March 2020, we
-            request that you re-confirm (or cancel) your registration at:
+            Although you registered for the event originally scheduled in March 2020,
+            we request that you re-confirm your registration at:
         </p>
         <p style='text-align: center;'>
             <code><a href='{confirmationURL}'>{confirmationURL}</a></code>
@@ -94,7 +95,8 @@ _htmlEmail = u'''
             <strong style='font-size: 140%;'>{code}</strong></em>
         </p>
         <p>
-            Please re-confirm (or cancel) your registration by January 8, 2021.
+            Please re-confirm your registration by January 8, 2021. You may also cancel
+            your registration at the above link if you are unable to attend.
         </p>
         <p>
             The workshop will include keynote speakers, invited talks, and poster
@@ -379,7 +381,7 @@ def sendEmail(context, mailer):
         msg = MIMEMultipart('alternative')
         msg.set_charset('utf8')
         msg['Subject'] = _emailSubject
-        msg['From'] = u'"Data Science Program Committee" <{}>'.format(_overseer)
+        msg['From'] = u'"AI & Data Science Program Committee" <{}>'.format(_overseer)
         msg['Cc'] = u','.join(_overseerAssistants)
         plain = _textEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
         html = _htmlEmail.format(firstName=data[u'firstName'], confirmationURL=url, code=data[u'code'])
@@ -478,6 +480,9 @@ def main(argv):
         workshop = portal['aiworkshop']
 
         if args.rm:
+            _logger.warn(u'🛑 STOP! This is dangerous; dropping into debugger; you know what you doing')
+            import pdb
+            pdb.set_trace()
             confirmations = plone.api.content.get(path='/aiworkshop/confirmations')
             if confirmations is not None:
                 plone.api.content.delete(confirmations)
