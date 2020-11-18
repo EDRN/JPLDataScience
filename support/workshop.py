@@ -331,7 +331,7 @@ def createForms(context, priorRegistrantsFile):
         # Thank you!
         widget = form[form.invokeFactory('FormThanksPage', 'thanks')]
         widget.setTitle(u'Thank You')
-        widget.setDescription(u"Hey, you've got our gratitude for taking the time to respond.")
+        widget.setDescription(u"You've got our gratitude for taking the time to respond.")
         widget.setShowAll(True)
         widget.setIncludeEmpties(True)
         widget.setThanksPrologue(_thanksPrologue)
