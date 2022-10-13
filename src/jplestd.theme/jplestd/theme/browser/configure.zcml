@@ -12,4 +12,6 @@
 
     <include package='z3c.jbot' file='meta.zcml' />
     <browser:jbot directory='images' layer='.interfaces.IThemeSpecific'/>
+    <!-- see if I can override the login form with a default value -->
+    <browser:jbot directory='templates' layer='.interfaces.IThemeSpecific'/>
 </configure>

@@ -32,6 +32,8 @@ _overseerAssistants = (u'sean.kelly@jpl.nasa.gov',)
 # 🚨 Change these if the form changes
 RESPONSE_COLUMN = 1
 FIRST_NAME_COLUMN = 2
+AFFILIATION_COLUMN = 5
+OTHER_COLUMN = 6
 
 # Pause between messages in seconds
 _interEmailWait = 2
@@ -444,11 +446,22 @@ def report(context):
         None:  u'none'
     }
     writer = UnicodeWriter(sys.stdout)
-    writer.writerow((u'Email', u'Code', u'Response', u'Notifications'))
+    writer.writerow((u'Email', u'Affiliation', u'Other Affiliation', u'Code', u'Response', u'Notifications'))
     for formBrain in forms:
         form = formBrain.getObject()
         data = json.loads(form['data'].getRawText())
-        writer.writerow((data[u'email'], data[u'code'], ballot[data[u'answer']], u';'.join(data[u'notifications'])))
+
+        response = data[u'answer']
+        if response is not None:
+            affiliation = next(UnicodeReader(StringIO(form['response'].getSavedFormInputForEdit())))[AFFILIATION_COLUMN]
+            other = next(UnicodeReader(StringIO(form['response'].getSavedFormInputForEdit())))[OTHER_COLUMN]
+        else:
+            affiliation = form['affiliation'].getFgDefault().decode('utf-8')
+            other = form['other-affiliation'].getFgDefault().decode('utf-8')
+
+        writer.writerow((
+            data[u'email'], affiliation, other, data[u'code'], ballot[data[u'answer']], u';'.join(data[u'notifications'])
+        ))
     sys.stdout.flush()
 
 
