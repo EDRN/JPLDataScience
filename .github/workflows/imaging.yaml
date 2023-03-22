@@ -1,17 +1,17 @@
-# ProxyCrypt Imaging
-# ==================
+# CDST Website Imaging
+# ====================
 #
-# This workflow builds and registers images of ProxyCrypt.
+# This workflow builds and registers images of Data Science website.
 
 ---
 
-name: ProxyCrypt Imaging
+name: Data Science Website Imaging
 
 
 # Triggers
 # --------
 #
-# Run on any push to the docker or etc subdirs.
+# Run on any push to the docker or src
 
 on:
     push:
@@ -19,7 +19,8 @@ on:
             -   main
         paths:
             -   'docker/**'
-            -   'etc/**'
+            -   'src/**'
+            -   'requirements.txt'
 
 
 # Jobs
@@ -29,7 +30,7 @@ on:
 
 jobs:
     imaging:
-        name: 🏞 ProxyCrypt Imaging
+        name: 🏞 Data Science Website Imaging
         runs-on: ubuntu-latest
         steps:
             -
@@ -55,7 +56,7 @@ jobs:
                     file: docker/Dockerfile
                     platforms: linux/amd64,linux/arm64
                     push: true
-                    tags: ${{secrets.DOCKERHUB_USERNAME}}/proxycrypt:latest
+                    tags: ${{secrets.DOCKERHUB_USERNAME}}/datasci:latest
 
 ...
 
