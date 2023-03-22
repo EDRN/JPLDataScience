@@ -1,0 +1,7 @@
+{% load menu_tags datasci_theme_tags %}
+{% for menu in menus %}
+    <div class='col'>
+        {% request_restoring_flat_menu original_context=original_context handle=menu.handle template='theme/menus/footer_menu.html' %}
+    </div>
+{% endfor %}
+{# -*- Django HTML -*- #}

@@ -1,0 +1,173 @@
+# Docker Composition for Data Science
+# ===================================
+
+---
+
+services:
+    # HTTPS proxy frontend
+    # ~~~~~~~~~~~~~~~~~~~~
+    #
+    # Gives an encrypted entrypoint to the whole kit 'n kaboodle on DATASCI_TLS_PORT or 5134
+    tls-termination:
+        image: nutjob4life/proxycrypt:latest
+        environment:
+            PROXY_URL: http://portal:8000/
+            CERT_CN: ${CERT_CN:-edrn-docker.jpl.nasa.gov}
+            PROXY_PATH: /
+        volumes:
+            -
+                type: bind
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/media
+                target: /app/media
+            -
+                type: bind
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/static
+                target: /app/static
+        ports:
+            -
+                target: 443
+                published: ${DATASCI_TLS_PORT:-5134}
+                protocol: tcp
+                mode: host
+        depends_on:
+            -   portal
+        networks:
+            -   lattice
+            -   default
+
+    # Data Science Wagtail-based Site
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #
+    # The two volumes for media and static should be served by the tls-termination.
+    portal:
+        image: ${DATASCI_IMAGE_OWNER-nutjob4life/}datasci:${DATASCI_VERSION:-1.0.0}
+        volumes:
+            -
+                type: bind
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/media
+                target: /app/media
+            -
+                type: bind
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/static
+                target: /app/static
+        networks:
+            -   lattice
+            -   default
+        environment:
+            # Empty values here may come from the host environment; some are required (SECRET_KEY and
+            # POSTGRES_PASSWORD). Others are optional or may have future use (RECAPTCHA_*).
+            POSTGRES_PASSWORD:
+            RECAPTCHA_PRIVATE_KEY:
+            RECAPTCHA_PUBLIC_KEY:
+            SECRET_KEY:
+
+            # These are the proper values for producdtion running
+            ALLOWED_HOSTS: ${ALLOWED_HOSTS:-.jpl.nasa.gov,localhost}
+            BASE_URL: ${BASE_URL:-https://datascience.jpl.nasa.gov/}
+            CSRF_TRUSTED_ORIGINS: http://localhost
+            DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db/datasci
+            DJANGO_SETTINGS_MODULE: datascience.settings.production
+            ELASTICSEARCH_URL: http://search:9200
+            MEDIA_ROOT: /app/media
+            MEDIA_URL: ${MEDIA_URL:-/media/}
+            SECURE_COOKIES: True
+            STATIC_ROOT: /app/static
+            STATIC_URL: ${STATIC_URL:-/static/}
+        depends_on:
+            -   db
+            -   search
+        restart: unless-stopped
+        stop_grace_period: 23s
+        labels:
+            org.label-schema.name: Data Science
+            org.label-schema.description: >
+                Wagtail serving the CMS for the Center for Data Science & Technology public portal.
+
+    # Database
+    # ~~~~~~~~
+    #
+    # Port 5432, non-published.
+    db:
+        image: postgres:15.2-alpine3.17
+        volumes:
+            -
+                type: bind
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/postgresql
+                target: /var/lib/postgresql/data
+        networks:
+            -   lattice
+        environment:
+            POSTGRES_PASSWORD:
+        restart: on-failure
+        stop_grace_period: 13s
+
+
+    # Search Engine
+    # ~~~~~~~~~~~~~
+    #
+    # Ports 9200 and 9300, not published.
+    search:
+        image: elasticsearch:7.17.9
+        volumes:
+            -
+                type: volume
+                source: elasticdata
+                target: /usr/share/elasticsearch/data
+        networks:
+            -   lattice
+        environment:
+            node.name: search
+            discovery.type: single-node
+            xpack.security.enabled: 'false'
+        ulimits:
+            nofile:
+                soft: 1048576
+                hard: 1048576
+            nproc:
+                soft: 65535
+                hard: 65535
+            memlock:
+                # Disable swapping
+                soft: -1
+                hard: -1
+        restart: on-failure
+
+# Volumes
+# -------
+#
+# Thankfully, this is pretty simple.
+
+volumes:
+    elasticdata:
+        driver: local
+        labels:
+            org.label-schema.name: Data Science Search Engine Data
+            org.label-schema.description: >
+                Indexes and other data for Elasticsearch for full-text indexing and ranking on the data science site.
+
+
+# Networks
+# --------
+#
+# Thankfully, this is also pretty simple.
+
+networks:
+    lattice:
+        driver: bridge
+        external: false
+        labels:
+            org.label-schema.name: Data Science Lattice Network
+            org.label-schema.description: >
+                Internal bridge network so the services that comprise the data science site.
+
+
+# Misc
+# ----
+#
+# Only thing we have here is some Docker Compose metadata.
+
+version: '3.9'
+
+...
+
+# -*- mode: YAML; tab-width: 4 -*-

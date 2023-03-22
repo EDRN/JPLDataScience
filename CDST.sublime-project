@@ -14,10 +14,13 @@
             "bin",
             "develop-eggs",
             "dist",
-            "parts",
+            "./media",
+            "./static",
             "var",
             "*.egg-info",
-            "python*"
+            "python*",
+            ".venv",
+            "venv"
          ],
          "path" : "."
       }

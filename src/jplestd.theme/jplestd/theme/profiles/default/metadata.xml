@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<metadata>
-    <version>1</version>
-    <description>JPL Data System Technology Office (873) Theme</description>
-    <dependencies>
-        <dependency>profile-jpl.ngtheme:default</dependency>
-    </dependencies>
-</metadata>
