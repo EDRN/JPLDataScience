@@ -1,8 +1,0 @@
-# encoding: utf-8
-
-'''JPL Data System Technology Office 873: upgrades'''
-
-from Products.CMFCore.utils import getToolByName
-
-def nullUpgradeStep(setupTool):
-    '''A null step for when a profile upgrade requires no custom activity.'''
