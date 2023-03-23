@@ -64,7 +64,7 @@ services:
             SECRET_KEY:
 
             # These are the proper values for producdtion running
-            ALLOWED_HOSTS: ${ALLOWED_HOSTS:-.jpl.nasa.gov,localhost}
+            ALLOWED_HOSTS: ${ALLOWED_HOSTS:-.jpl.nasa.gov,localhost,edrn-docker.dst,.dst,edrn-docker}
             BASE_URL: ${BASE_URL:-https://datascience.jpl.nasa.gov/}
             CSRF_TRUSTED_ORIGINS: http://localhost
             DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db/datasci
