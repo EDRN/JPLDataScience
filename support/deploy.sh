@@ -21,11 +21,14 @@ compose() {
 echo "🛑 Stopping and removing any existing containers and services"
 compose down --remove-orphans --volumes
 
-rm -rf docker-data 
-mkdir docker-data
+[ -d docker-data ] || mkdir docker-data
 for sub in media static postgresql; do
+    rm -rf docker-data/$sub
     mkdir docker-data/$sub
 done
+
+echo "🪢 Pulling latest images"
+compose pull --quiet
 
 echo "🚢 Creating containers and starting composition in detached mode" 1>&2
 compose up --detach --quiet-pull --remove-orphans

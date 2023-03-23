@@ -43,5 +43,44 @@ del _secure
 # Valid `Host:` headers that we'll serve
 #
 # 🔗 https://docs.djangoproject.com/en/3.2/ref/settings/#std:setting-ALLOWED_HOSTS
+# 🔗 https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-USE_X_FORWARDED_HOST
 
 ALLOWED_HOSTS = [i.strip() for i in os.getenv('ALLOWED_HOSTS', '.jpl.nasa.gov').split(',')]
+USE_X_FORWARDED_HOST = True
+
+
+# Logging
+# -------
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%Y-%b-%d %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'mysite.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'MYAPP': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+    }
+}
