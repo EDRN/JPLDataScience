@@ -21,6 +21,7 @@ on:
             -   'docker/**'
             -   'src/**'
             -   'requirements.txt'
+            -   '.dockerignore'
 
 
 # Jobs

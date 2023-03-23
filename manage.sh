@@ -5,11 +5,11 @@
 
 . ${HOME}/.secrets/passwords.sh
 
-export DJANGO_SETTINGS_MODULE=local
+export DJANGO_SETTINGS_MODULE=datascience.settings.production
 
-if [ ! -d "src" -o ! -d "etc" -o ! -d "docker" ]; then
+if [ ! -d "src" -o ! -d "docker" ]; then
     echo "🚨 Run this from the checked-out JPLDataScience source directory" 1>&2
-    echo "You should have these subdirs in the current directory: src etc docker" 1>&2
+    echo "You should have these subdirs in the current directory: src docker" 1>&2
     exit 1
 fi
 

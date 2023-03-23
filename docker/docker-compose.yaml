@@ -8,7 +8,7 @@ services:
     # ~~~~~~~~~~~~~~~~~~~~
     #
     # Gives an encrypted entrypoint to the whole kit 'n kaboodle on DATASCI_TLS_PORT or 5134
-    tls-termination:
+    tls:
         image: nutjob4life/proxycrypt:latest
         environment:
             PROXY_URL: http://portal:8000/
@@ -17,11 +17,11 @@ services:
         volumes:
             -
                 type: bind
-                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/media
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/dev/docker-data}/media
                 target: /app/media
             -
                 type: bind
-                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/static
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/dev/docker-data}/static
                 target: /app/static
         ports:
             -
@@ -31,6 +31,8 @@ services:
                 mode: host
         depends_on:
             -   portal
+        restart: unless-stopped
+        stop_grace_period: 17s
         networks:
             -   lattice
             -   default
@@ -44,11 +46,11 @@ services:
         volumes:
             -
                 type: bind
-                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/media
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/dev/docker-data}/media
                 target: /app/media
             -
                 type: bind
-                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/static
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/dev/docker-data}/static
                 target: /app/static
         networks:
             -   lattice
@@ -92,7 +94,7 @@ services:
         volumes:
             -
                 type: bind
-                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/docker-data}/postgresql
+                source: ${DATASCI_DATA_DIR:-/usr/local/labcas/datasci/dev/docker-data}/postgresql
                 target: /var/lib/postgresql/data
         networks:
             -   lattice
