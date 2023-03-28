@@ -14,8 +14,6 @@ compose.sh
 develop-eggs
 dist
 eggs
-./media/
-./static/
 typescript
 venv
 var/
