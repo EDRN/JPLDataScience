@@ -17,7 +17,7 @@ $ ./manage.sh createsuperuser --username root --email your@email.com
 ### 🚢 Dockerization
 
 ```console
-$ docker image build --tag datasci --file docker/Dockerfile .
+$ docker image build --tag nutjob4life/datasci --file docker/Dockerfile .
 $ env POSTGRES_PASSWORD=secret DATASCI_IMAGE_OWNER= DATASCI_DATA_DIR=/Users/kelly/Downloads/docker-data/datasci DATASCI_VERSION=latest docker compose --file docker/docker-compose.yaml up
 $ env POSTGRES_PASSWORD=secret DATASCI_IMAGE_OWNER= DATASCI_DATA_DIR=/Users/kelly/Downloads/docker-data/datasci DATASCI_VERSION=latest docker compose --file docker/docker-compose.yaml exec db dropdb --force --if-exists --username=postgres datasci
 $ env POSTGRES_PASSWORD=secret DATASCI_IMAGE_OWNER= DATASCI_DATA_DIR=/Users/kelly/Downloads/docker-data/datasci DATASCI_VERSION=latest docker compose --file docker/docker-compose.yaml exec db createdb --username=postgres --encoding=UTF8 --owner=postgres datasci
