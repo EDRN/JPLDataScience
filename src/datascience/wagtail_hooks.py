@@ -23,3 +23,4 @@ def make_publish_default_action(menu_items: list, request: HttpRequest, context:
             menu_items.pop(index)
             menu_items.insert(0, item)
             break
+
