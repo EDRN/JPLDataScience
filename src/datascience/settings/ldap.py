@@ -33,12 +33,13 @@ AUTHENTICATION_BACKENDS = ['django_auth_ldap.backend.LDAPBackend', 'django.contr
 # Server
 # ------
 #
-# The timeout is in seconds.
+# The timeout is in seconds. The weird server URL is explained by
+# https://jpl.slack.com/archives/C01DXUKQ69L/p1680102577455989?thread_ts=1680100505.489409&cid=C01DXUKQ69L
 #
 # 🔗 https://django-auth-ldap.readthedocs.io/en/latest/authentication.html#server-config
 # 🔗 https://django-auth-ldap.readthedocs.io/en/latest/reference.html#auth-ldap-cache-timeout
 
-AUTH_LDAP_SERVER_URI = os.getenv('LDAP_URI', 'ldaps://ldap.jpl.nasa.gov')
+AUTH_LDAP_SERVER_URI = os.getenv('LDAP_URI', 'ldaps://ldap-202007.jpl.nasa.gov')
 AUTH_LDAP_CACHE_TIMEOUT = int(os.getenv('LDAP_CACHE_TIMEOUT', '3600'))
 
 

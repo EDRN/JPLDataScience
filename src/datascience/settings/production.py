@@ -66,7 +66,7 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': 'mysite.log',
             'formatter': 'verbose'
@@ -76,11 +76,11 @@ LOGGING = {
         'django': {
             'handlers': ['file'],
             'propagate': True,
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         'MYAPP': {
             'handlers': ['file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
     }
 }
