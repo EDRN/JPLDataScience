@@ -1,10 +1,10 @@
 dj_database_url     ~= 1.2.0
 Django              ~= 4.1.7
 django-extensions   ~= 3.2.1
-django_auth_ldap    ~= 4.1
 django_auth_ldap    == 4.1.0
+django_auth_ldap    ~= 4.1
 elasticsearch       ~= 7.17.9
 psycopg2            ~= 2.9.5
 wagtail             ~= 4.2.1
+wagtail_blocks      ~= 0.8.1
 wagtailmenus        ~= 3.1.5
-

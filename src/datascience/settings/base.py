@@ -18,6 +18,8 @@ INSTALLED_APPS = [
     'blocks',
     'content',
     'controls',
+    'wagtail.contrib.table_block',
+    'wagtail.contrib.typed_table_block',
     'wagtail.contrib.modeladmin',  # Needed by wagtailmenus
     'wagtail.contrib.settings',    # Needed for @register_setting, etc.
     'wagtailmenus',
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'wagtail_blocks',
 ]
 
 

@@ -6,33 +6,34 @@ from django.utils.html import format_html
 from wagtail import blocks
 from wagtail.contrib.table_block.blocks import TableBlock as BaseTableBlock
 from wagtail.contrib.typed_table_block.blocks import TypedTableBlock as BaseTypedTableBlock
-from wagtail.images.blocks import ImageChooserBlock
 
 
 class TitleBlock(blocks.StructBlock):
     '''A large title.'''
     text = blocks.CharBlock(max_length=100, required=True, help_text='Title to display')
     class Meta:
-        template = 'edrnsite.streams/title-block.html'
+        template = 'blocks/title-block.html'
         icon = 'title'
         label = 'Title'
-        help_text = 'Large title text to display on the page'
+        help_text = 'Display-class title text'
 
 
 class TableBlock(BaseTableBlock):
-    '''A basic table to appear in the EDRN site.'''
+    '''A basic table to appear in the data science site.'''
     class Meta(object):
-        template = 'edrnsite.streams/table-block.html'
+        template = 'blocks/table-block.html'
         icon = 'table'
-        label = 'Basic (Plain Text) Table'
+        label = 'Basic Table'
+        help_text = 'A table that can only contain plain text cells'
 
 
 class TypedTableBlock(BaseTypedTableBlock):
-    '''A more advanced table to appear in the EDRN site.'''
+    '''A more advanced table to appear in the data science site.'''
     class Meta(object):
-        template = 'edrnsite.streams/typed-table-block.html'
+        template = 'blocks/typed-table-block.html'
         icon = 'table'
         label = 'Advanced Table'
+        help_text = 'An advanced table where each column may have a different data type'
 
 
 class BlockQuoteBlock(blocks.BlockQuoteBlock):
@@ -51,13 +52,3 @@ TYPED_TABLE_BLOCK = TypedTableBlock([
     ('integer', blocks.IntegerBlock(help_text='Integer cell')),
     ('page', blocks.PageChooserBlock(help_text='Page within the site')),
 ])
-
-
-class CaptionedImageBlock(blocks.StructBlock):
-    image = ImageChooserBlock()
-    label = blocks.CharBlock(max_length=120, required=False, help_text='Overlaid label, if any')
-    caption = blocks.CharBlock(max_length=400, required=False, help_text='Overlaid caption, if any')
-    class Meta:
-        icon = 'placeholder'
-        label = 'Captioned Image'
-        help_text = 'An image with both a shorter label and a longer caption'
