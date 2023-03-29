@@ -5,6 +5,7 @@
 from ..models import Footer
 from django import template
 from django.template.context import Context
+from django.urls import reverse
 from wagtail.models import Site
 from wagtailmenus.models import FlatMenu
 from wagtailmenus.templatetags.menu_tags import flat_menu
@@ -33,3 +34,18 @@ def jpl_colophon_byline() -> dict:
     byline['webmaster'] = footer.webmaster if footer.webmaster else 'unknown'
     byline['clearance'] = footer.clearance if footer.clearance else 'unknown'
     return byline
+
+
+@register.inclusion_tag('theme/login-link.html', takes_context=True)
+def login_link(context: Context) -> dict:
+    request, params = context.get('request'), {}
+    if request.user.is_authenticated:
+        params['authenticated'] = True
+        try:
+            params['name'] = request.user.ldap_user.attrs['cn'][0]
+        except (AttributeError, KeyError, IndexError, TypeError):
+            params['name'] = f'{request.user.first_name} {request.user.last_name}'.strip()
+        params['logout'] = reverse('wagtailadmin_logout') + '?next=' + request.path
+    else:
+        params['authenticated'], params['login'] = False, reverse('wagtailadmin_home')
+    return params
