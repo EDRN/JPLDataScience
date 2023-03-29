@@ -53,7 +53,7 @@ RUN \
 
 RUN \
     build_deps="automake bzip2-dev cyrus-sasl-dev g++ gcc libffi-dev libjpeg-turbo-dev libwebp-dev libxml2-dev libxslt-dev make musl-dev openjpeg-dev openldap-dev openssl-dev pcre-dev python3-dev postgresql-dev su-exec tiff-dev zlib-dev " &&\
-    run_deps="curl krb5-libs libgcc libjpeg-turbo libldap libpq libsasl libstdc++ libwebp libxml2 libxslt netcat-openbsd openjpeg python3 rsync tiff" &&\
+    run_deps="ca-certificates curl krb5-libs libgcc libjpeg-turbo libldap libpq libsasl libstdc++ libwebp libxml2 libxslt netcat-openbsd openjpeg python3 rsync tiff" &&\
     py_deps="py3-pillow py3-psycopg2 py3-tz py3-tzdata py3-tzlocal" &&\
     /sbin/apk update --quiet &&\
     /sbin/apk add --no-progress --quiet --virtual /datasci-build $build_deps &&\
