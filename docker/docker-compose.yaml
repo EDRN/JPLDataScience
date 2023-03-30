@@ -9,7 +9,7 @@ services:
     #
     # Gives an encrypted entrypoint to the whole kit 'n kaboodle on DATASCI_TLS_PORT or 5134
     tls:
-        image: nutjob4life/proxycrypt:latest
+        image: edrndocker/proxycrypt:latest
         environment:
             PROXY_URL: http://portal:8000/
             CERT_CN: ${CERT_CN:-edrn-docker.jpl.nasa.gov}
@@ -42,7 +42,7 @@ services:
     #
     # The two volumes for media and static should be served by the tls-termination.
     portal:
-        image: ${DATASCI_IMAGE_OWNER-nutjob4life/}datasci:${DATASCI_VERSION:-1.0.0}
+        image: ${DATASCI_IMAGE_OWNER-edrndocker/}datasci:${DATASCI_VERSION:-1.0.0}
         volumes:
             -
                 type: bind
