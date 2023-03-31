@@ -83,7 +83,7 @@ class Command(BaseCommand):
         page.save()
 
     def add_contact(self, home_page):
-        page = FlexPage(title='Contact Us', live=True, show_in_menus=True)
+        page = FlexPage(title='Contact Us', live=True, show_in_menus=True)
         home_page.add_child(instance=page)
         page.save()
 
