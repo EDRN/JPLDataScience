@@ -21,13 +21,9 @@ class Command(BaseCommand):
 
     help = 'Bloom the data science site with initial content and settings'
     search_description = 'Data Science at the Jet Propulsion Laboratory creates insights from large scale scientific data'
-    home_page_text = '''<p>Bits how suspended heavy hypatia hidden preserve mote helmets. Love galaxyrise impossible bearable seed starlight gravity require ghostly bearable vastness tesseract vanquish. Syntheses small away made global starlight brain dream mote. Flourish hearts cluster venture eye gravity bits syntheses star stuff suspended s with two billions by. Mind dream root glorious home ever atoms gravity global.</p>
 
-<p>Two universe that global astonishment root still explosion dust ash. Rogue astonishment glorious figures tingling prime small gathered hearts. Figures energy matter explosion with something incredible invent edge something incredible cluster away universe. Figures universe beings interiors still that mote astonishment calls to us bearable sunrise still finite but unbounded arena cambrian. That hearts rogue by spine number still stirred ve universe stellar alchemy kindling astonishment preserve.</p>
-
-<p>Star stuff root not galaxies courage ever small explosion rich helmets science from which we spring. Starlight extraordinary made number starlight tingling explosion death pale blue dot dawn paroxysm are starlight. Intelligent star stuff kindling pretty glorious heavy billions collapsing stars. Cherish harvesting not mote questions ocean waiting be known coveralls energy sunrise kindling pale blue dot. Forever eye glorious love waiting be known syntheses globular more claims.</p>
-
-<p>Stellar alchemy by away how cluster spine root globular arena brain calls to us ash atoms helmets vanquish. Fluff tingling are ash fugue invent kindling there little by cosmic atoms waiting be known rogue cosmic. Forever stirred finite but unbounded small gathered tingling beings hundreds interiors brilliant. Claims kindling finite but unbounded root ocean bits eye good upon hearts dawn only paroxysm billions. Cherish galaxies tesseract extraordinary arena edge pretty more upon vast number motes.</p>'''
+    def get_html_text(self, name: str) -> RichText:
+        return RichText(pkg_resources.resource_string(__name__, f'data/{name}.html').decode('utf-8').strip())
 
     def set_site(self):
         '''Set up the Site object for Data Science, returning it.'''
@@ -49,7 +45,7 @@ class Command(BaseCommand):
                 search_description=self.search_description, banner=image, live=True, slug=old_root.slug,
                 depth=old_root.depth, url_path=old_root.url_path, path=old_root.path
             )
-            home_page.body.append(('rich_text', RichText(self.home_page_text)))
+            home_page.body.append(('rich_text', self.get_html_text('home')))
             site.root_page = home_page
             old_root.delete()
             mega_root.save()
@@ -60,6 +56,7 @@ class Command(BaseCommand):
     def add_initiatives(self, home_page):
         page = FlexPage(title='Initiatives', live=True, show_in_menus=True)
         home_page.add_child(instance=page)
+        page.body.append(('rich_text', self.get_html_text('initiatives')))
         page.save()
 
     def add_technologies(self, home_page):
@@ -70,6 +67,7 @@ class Command(BaseCommand):
     def add_workshops(self, home_page):
         page = FlexPage(title='Workshops', live=True, show_in_menus=True)
         home_page.add_child(instance=page)
+        page.body.append(('rich_text', self.get_html_text('workshops')))
         page.save()
 
     def add_news(self, home_page):
