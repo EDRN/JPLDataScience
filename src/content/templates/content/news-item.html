@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags cache wagtailimages_tags %}
+{# 🔮 caching and metadata #}
+{% block content %}
+    <div class='row'>
+        <div class='col-md-10 offset-md-0'>
+            <h1>{{page.title}}</h1>
+        </div>
+        <div class='col-md-2 text-end'>
+            <p>{{page.release_date}}</p>
+        </div>
+    </div>
+
+    <figure class='figure'>
+        {% image page.lead_image width-768 class='figure-img img-fluid rounded' %}
+        {% if page.caption %}
+            <figcaption class='figure-caption text-end'>{{page.caption}}</figcaption>
+        {% endif %}
+    </figure>
+
+
+    {% for block in page.body %}
+        {% include_block block with block_id=block.id %}
+    {% endfor %}
+
+{% endblock content %}
+{# -*- Django HTML -*- #}

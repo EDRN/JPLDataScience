@@ -4,7 +4,7 @@
 
 # from robots.models import Rule, DisallowedUrl
 
-from content.models import HomePage, FlexPage
+from content.models import HomePage, FlexPage, NewsIndex, NewsItem
 from django.conf import settings
 from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
@@ -13,7 +13,7 @@ from wagtail.images.models import Image
 from wagtail.models import Site, Page
 from wagtail.rich_text import RichText
 from wagtailmenus.models import FlatMenu, FlatMenuItem
-import pkg_resources
+import pkg_resources, codecs, csv, datetime
 
 
 class Command(BaseCommand):
@@ -70,10 +70,33 @@ class Command(BaseCommand):
         page.body.append(('rich_text', self.get_html_text('workshops')))
         page.save()
 
+    def add_news_items(self, news_page):
+        io = pkg_resources.resource_stream(__name__, 'data/news.csv')
+        utf8_reader = codecs.getreader('utf-8')
+        c = csv.reader(utf8_reader(io))
+        for title, date, summary, image_fn, image_title, caption, body_fn in c:
+            if image_fn:
+                with pkg_resources.resource_stream(__name__, f'data/news/{image_fn}') as image_io:
+                    image_file = ImageFile(image_io, name=image_fn)
+                    image = Image(title=image_title, file=image_file)
+                    image.save()
+            else:
+                image = None
+            body = RichText(pkg_resources.resource_string(__name__, f'data/news/{body_fn}').decode('utf-8').strip())
+            release_date = datetime.date.fromisoformat(date)
+            item = NewsItem(
+                title=title, search_description=summary, release_date=release_date, lead_image=image, caption=caption,
+                live=True, show_in_menus=False,
+            )
+            item.body.append(('rich_text', body))
+            news_page.add_child(instance=item)
+            item.save()
+
     def add_news(self, home_page):
-        page = FlexPage(title='News', live=True, show_in_menus=True)
+        page = NewsIndex(title='News', live=True, show_in_menus=True)
         home_page.add_child(instance=page)
         page.save()
+        self.add_news_items(page)
 
     def add_people(self, home_page):
         page = FlexPage(title='People', live=True, show_in_menus=True)
