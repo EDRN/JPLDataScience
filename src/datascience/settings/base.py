@@ -24,6 +24,9 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',    # Needed for @register_setting, etc.
     'wagtailmenus',
     'wagtail.contrib.forms',
+    'widget_tweaks',
+    'wagtailcaptcha',
+    'captcha',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
     'wagtail.sites',
@@ -204,3 +207,21 @@ WAGTAILSEARCH_BACKENDS = {
 # 🔗 https://docs.wagtail.org/en/stable/reference/settings.html#wagtailadmin-base-url
 
 WAGTAILADMIN_BASE_URL = os.getenv('BASE_URL', 'https://datascience.jpl.nasa.gov/')
+
+
+# reCAPTChA
+#
+# 🔗 https://github.com/springload/wagtail-django-recaptcha
+
+RECAPTCHA_PUBLIC_KEY = os.getenv('JPL_DS_RECAPTCHA_SITE_KEY', '')
+RECAPTCHA_PRIVATE_KEY = os.getenv('JPL_DS_RECAPTCHA_SECRET_KEY', '')
+
+
+# Email
+#
+# 🔗 https://docs.djangoproject.com/en/4.1/ref/settings/#email-host
+
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.jpl.nasa.gov')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')

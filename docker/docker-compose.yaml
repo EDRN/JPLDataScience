@@ -57,11 +57,15 @@ services:
             -   default
         environment:
             # Empty values here may come from the host environment; some are required (SECRET_KEY and
-            # POSTGRES_PASSWORD). Others are optional or may have future use (RECAPTCHA_*).
+            # POSTGRES_PASSWORD). Others are optional or may have future use (*RECAPTCHA*).
             POSTGRES_PASSWORD:
-            RECAPTCHA_PRIVATE_KEY:
-            RECAPTCHA_PUBLIC_KEY:
+            JPL_DS_RECAPTCHA_SITE_KEY:
+            JPL_DS_RECAPTCHA_SECRET_KEY:
             SECRET_KEY:
+            EMAIL_HOST:
+            EMAIL_PORT:
+            EMAIL_HOST_USER:
+            EMAIL_HOST_PASSWORD:
 
             # These are the proper values for producdtion running
             ALLOWED_HOSTS: ${ALLOWED_HOSTS:-.jpl.nasa.gov,localhost,edrn-docker.dst,.dst,edrn-docker}

@@ -6,6 +6,8 @@
 . ${HOME}/.secrets/passwords.sh
 
 export DJANGO_SETTINGS_MODULE=datascience.settings.production
+export JPL_DS_RECAPTCHA_SITE_KEY JPL_DS_RECAPTCHA_SECRET_KEY
+
 
 if [ ! -d "src" -o ! -d "docker" ]; then
     echo "🚨 Run this from the checked-out JPLDataScience source directory" 1>&2
@@ -16,8 +18,8 @@ fi
 if [ ! -d ".venv" ]; then
     echo "⚠️ Local Python virtual environment missing; attempting to re-create it" 1>&2
     python3.10 -m venv .venv
-    venv/bin/pip install --quiet --upgrade setuptools pip wheel build
-    venv/bin/pip install --requirement requirements.txt
+    .venv/bin/pip install --quiet --upgrade setuptools pip wheel build
+    .venv/bin/pip install --requirement requirements.txt
 fi
 
 . .venv/bin/activate
