@@ -66,6 +66,8 @@ services:
             EMAIL_PORT:
             EMAIL_HOST_USER:
             EMAIL_HOST_PASSWORD:
+            EMAIL_USE_TLS:
+            EMAIL_USE_SSL:
 
             # These are the proper values for producdtion running
             ALLOWED_HOSTS: ${ALLOWED_HOSTS:-.jpl.nasa.gov,localhost,edrn-docker.dst,.dst,edrn-docker}
