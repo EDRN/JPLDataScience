@@ -21,6 +21,7 @@ compose() {
 echo "🛑 Stopping and removing any existing containers and services"
 compose down --remove-orphans --volumes
 
+compose run --rm --volume ${PWD}/docker-data:/mnt --no-TTY --entrypoint /bin/rm db -rf /mnt/postgresql || :
 [ -d docker-data ] || mkdir docker-data
 for sub in media static postgresql; do
     rm -rf docker-data/$sub
