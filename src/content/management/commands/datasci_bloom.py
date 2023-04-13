@@ -4,7 +4,7 @@
 
 # from robots.models import Rule, DisallowedUrl
 
-from content.models import HomePage, FlexPage, NewsIndex, NewsItem, CaptchaEmailForm, CaptchaEmailFormField
+from content.models import HomePage, FlexPage, NewsIndex, NewsItem, CaptchaEmailForm, CaptchaEmailFormField, EmailForm, EmailFormField
 from django.conf import settings
 from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
@@ -104,7 +104,7 @@ class Command(BaseCommand):
         page.save()
 
     def add_contact(self, home_page):
-        page = CaptchaEmailForm(
+        page = EmailForm(
             title='Contact Us', live=True, show_in_menus=True,
             intro="<p>Want to get in touch? Simply fill out the form below and we'll reach out.</p>",
             outro="<p>Please note that inquiries usually get a response within 3–5 business days.</p>",
@@ -115,15 +115,15 @@ class Command(BaseCommand):
         )
         home_page.add_child(instance=page)
         page.save()
-        page.form_fields.add(CaptchaEmailFormField(
+        page.form_fields.add(EmailFormField(
             label='Your Name', field_type='singleline', required=True,
             help_text='Please enter your name.'
         ))
-        page.form_fields.add(CaptchaEmailFormField(
+        page.form_fields.add(EmailFormField(
             label='Email Address', field_type='email', required=True,
             help_text='Please enter your email address so we can respond back to you.'
         ))
-        page.form_fields.add(CaptchaEmailFormField(
+        page.form_fields.add(EmailFormField(
             label='Message', field_type='multiline', required=True,
             help_text="What's on your mind?"
         ))
