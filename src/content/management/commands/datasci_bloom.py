@@ -103,15 +103,20 @@ class Command(BaseCommand):
         home_page.add_child(instance=page)
         page.save()
 
+    def add_success(self, home_page):
+        page = FlexPage(title='Success Stories', live=True, show_in_menus=True)
+        home_page.add_child(instance=page)
+        page.save()
+
     def add_contact(self, home_page):
         page = CaptchaEmailForm(
-            title='Contact Us', live=True, show_in_menus=True,
+            title='Contact Us', live=True, show_in_menus=False,
             intro="<p>Want to get in touch? Simply fill out the form below and we'll reach out.</p>",
             outro="<p>Please note that inquiries usually get a response within 3–5 business days.</p>",
             thank_you_text="<p>Thanks! We'll respond back via email in 3–5 business days.</p>",
             from_address='sean.kelly@jpl.nasa.gov',
             to_address='sean.kelly@jpl.nasa.gov',
-            subject='Data Science Website: "contact us" form submission'
+            subject='Data Science Website: "contact us" form submission',
         )
         home_page.add_child(instance=page)
         page.save()
@@ -135,6 +140,7 @@ class Command(BaseCommand):
         self.add_workshops(home_page)
         self.add_news(home_page)
         self.add_people(home_page)
+        self.add_success(home_page)
         self.add_contact(home_page)
 
     def set_initial_settings(self, site):
@@ -147,14 +153,19 @@ class Command(BaseCommand):
     def create_footer_menus(self, site):
         FlatMenu.objects.all().delete()
 
-        contact = FlatMenu(site=site, title='1: Contact', handle='footer-contact', heading='Contact')
-        contact.save()
-        contact_page = Page.objects.filter(slug='contact-us').first()
-        FlatMenuItem(menu=contact, link_page=contact_page).save()
-        FlatMenuItem(
-            menu=contact, link_url='https://www.jpl.nasa.gov/who-we-are/media-information/jpl-media-contacts',
-            link_text='JPL Media Contacts'
-        ).save()
+        # For some reason (possibly because contact-us is a form, not a page), the contact us never gets
+        # rendered. So I'm rendering it manually in footer.html.
+        #
+        # Leaving this code in here in case we want to revisit it:
+        #
+        # contact = FlatMenu(site=site, title='1: Contact', handle='footer-contact', heading='Contact')
+        # contact.save()
+        # contact_page = Page.objects.filter(slug='contact-us').first()
+        # FlatMenuItem(menu=contact, link_page=contact_page, link_text='Contact Us').save()
+        # FlatMenuItem(
+        #     menu=contact, link_url='https://www.jpl.nasa.gov/who-we-are/media-information/jpl-media-contacts',
+        #     link_text='JPL Media Contacts'
+        # ).save()
 
         science = FlatMenu(site=site, title='2: Science', handle='footer-science', heading='Science')
         science.save()

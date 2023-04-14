@@ -6,7 +6,7 @@ from ..models import Footer
 from django import template
 from django.template.context import Context
 from django.urls import reverse
-from wagtail.models import Site
+from wagtail.models import Site, Page
 from wagtailmenus.models import FlatMenu
 from wagtailmenus.templatetags.menu_tags import flat_menu
 
@@ -49,3 +49,9 @@ def login_link(context: Context) -> dict:
     else:
         params['authenticated'], params['login'] = False, reverse('wagtailadmin_home')
     return params
+
+
+@register.simple_tag(takes_context=False)
+def contact_us_url() -> str:
+    page = Page.objects.filter(slug='contact-us').first()
+    return page.url

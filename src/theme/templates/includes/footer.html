@@ -2,6 +2,17 @@
 <footer class='jpl-portal-footer' id='site-footer'>
     <section class='sitemap pt-3 pb-4'>
         <div class='row ps-5 pe-5'>
+            <div class='col'>
+                <div class='footer-menu-heading'>Contact</div>
+                <ul class='nav flex-column'>
+                    <li class='nav-item mb-2'>
+                        <a class='nav-link p-0 text-light' href='{% contact_us_url %}'>Contact Us</a>
+                    </li>
+                    <li class='nav-item mb-2'>
+                        <a class='nav-link p-0 text-light' href='https://www.jpl.nasa.gov/who-we-are/media-information/jpl-media-contacts'>JPL Media Contacts</a>
+                    </li>
+                </ul>
+            </div>
             {% datasci_footer_menus %}
         </div>
     </section>
