@@ -28,6 +28,7 @@ ENV PYTHONUNBUFFERED=1 \
     STATIC_ROOT=/app/static \
     MEDIA_ROOT=/app/media
 
+
 # Layering
 # --------
 #
@@ -64,6 +65,8 @@ RUN \
 RUN \
     : See https://github.com/python-ldap/python-ldap/issues/432 for workaround to Python LDAP vs OpenLDAP 2.5 issue &&\
     echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so &&\
+    : Work around the weird JPL ldap server at ldap-202007.jpl.nasa.gov too &&\
+    echo 'TLS_REQCERT never' >> /etc/openldap/ldap.conf &&\
     /usr/bin/python3 -m ensurepip --upgrade &&\
     /usr/bin/pip3 install --quiet --progress-bar off --upgrade pip setuptools wheel &&\
     /usr/bin/pip3 install gunicorn==20.1.0 &&\
