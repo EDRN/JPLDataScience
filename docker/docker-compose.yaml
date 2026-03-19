@@ -96,7 +96,7 @@ services:
     #
     # Port 5432, non-published.
     db:
-        image: postgres:15.2-alpine3.17
+        image: postgres:15.17-alpine3.23
         volumes:
             -
                 type: bind
